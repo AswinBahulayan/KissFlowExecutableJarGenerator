@@ -16,7 +16,7 @@ public class Hooks extends SeleniumHelper{
 		category = "Smoke";
 		author= "Aswin";
 		startTestCase();
-		startApp("chrome", "https://kissflow.com");
+		startApp("chrome", "https://kissflow.com", "Grid");
 		}
 	@After
 	public void afterScenario(Scenario sc) throws IOException {

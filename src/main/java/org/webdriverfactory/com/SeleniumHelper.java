@@ -2,6 +2,8 @@ package org.webdriverfactory.com;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -16,10 +18,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.NoSuchFrameException;
 import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,14 +38,39 @@ public class SeleniumHelper extends ObjectdetailedReporter{
 	public int i = 1;
 	public static String NameOfState=null;
 	public static RemoteWebDriver driver;
-	public void startApp(String browser, String url)  {
+	public static DesiredCapabilities capabilities;
+	public void startApp(String browser, String url, String GridORLocal) throws MalformedURLException  {
 		try {
+			if(GridORLocal.equalsIgnoreCase("Local"))
+			{
 			if(browser.equalsIgnoreCase("chrome")){
 				System.setProperty("webdriver.chrome.driver", "driver/chromedriver.exe");
 				driver = new ChromeDriver();
 			} else if (browser.equalsIgnoreCase("firefox")){
 				System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
 				driver = new FirefoxDriver();
+			}
+			}
+			else if(GridORLocal.equalsIgnoreCase("Grid"))
+			{
+				
+			if(browser.equalsIgnoreCase("chrome"))
+			{
+				capabilities.chrome();
+				capabilities.setBrowserName("Chrome");
+				capabilities.setPlatform(Platform.WINDOWS);
+				ChromeOptions options=new ChromeOptions();
+				options.setHeadless(false);
+				options.merge(capabilities);
+			}
+			if(browser.equalsIgnoreCase("firefox"))
+			{
+				capabilities.firefox();
+				capabilities.setBrowserName("firefox");
+				capabilities.setPlatform(Platform.WINDOWS);
+				
+			}
+			driver=new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), capabilities);
 			}
 			driver.get(url);
 			driver.manage().window().maximize();
