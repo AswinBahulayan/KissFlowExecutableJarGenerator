@@ -51,13 +51,17 @@ public class SeleniumHelper extends ObjectdetailedReporter{
 				driver = new FirefoxDriver();
 			}
 			}
+			
 			else if(GridORLocal.equalsIgnoreCase("Grid"))
 			{
 				
 			if(browser.equalsIgnoreCase("chrome"))
 			{
-				capabilities.chrome();
-				capabilities.setBrowserName("Chrome");
+				//capabilities.chrome();
+				/////
+				
+				capabilities= DesiredCapabilities.chrome();
+				capabilities.setBrowserName("chrome");
 				capabilities.setPlatform(Platform.WINDOWS);
 				ChromeOptions options=new ChromeOptions();
 				options.setHeadless(false);
@@ -65,7 +69,7 @@ public class SeleniumHelper extends ObjectdetailedReporter{
 			}
 			if(browser.equalsIgnoreCase("firefox"))
 			{
-				capabilities.firefox();
+				capabilities=DesiredCapabilities.firefox();
 				capabilities.setBrowserName("firefox");
 				capabilities.setPlatform(Platform.WINDOWS);
 				
